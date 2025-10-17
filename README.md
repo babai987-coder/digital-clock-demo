@@ -1,24 +1,32 @@
-# Digital Clock with Dark/Light Mode
+# Digital Clock with Dark/Light Mode (Round 2)
 
 ## Overview
-A simple, responsive digital clock web app that displays the current time and date, with a dark/light mode toggle. The selected theme is remembered across visits and can also follow the system preference if no explicit choice is made.
+A simple, elegant digital clock web app that:
+- Displays the current time and updates every second.
+- Shows the full current date below the time.
+- Includes a dark/light mode toggle with smooth transitions.
+- Remembers your theme preference using local storage.
+- Respects the system color scheme when no manual preference is set.
 
 ## Setup
-- No build steps required.
-- Download or clone the project and open index.html in any modern web browser.
+No build tools required.
+
+1. Download or copy `index.html`.
+2. Open `index.html` in any modern browser.
 
 ## Usage
-- Open index.html.
-- The current time updates every second.
-- The current date is displayed beneath the time and updates automatically.
-- Use the toggle in the top-right to switch between light and dark modes.
-  - Your choice is saved and will persist on reload.
-  - If you haven’t chosen a theme, the app follows your system’s color scheme.
+- The time updates every second automatically.
+- The date is shown below the time in a readable format (e.g., Wednesday, October 17, 2025).
+- Click the “Dark/Light” toggle button in the top-right to switch themes.
+- Your theme choice is saved and persists across page reloads.
+- If you haven’t chosen a theme, the app follows your system’s light/dark preference.
 
 ## Improvements in Round 2
-- Added dark/light mode toggle with:
-  - Smooth transitions.
-  - Preference persistence via localStorage.
-  - System preference detection and automatic updates when no explicit choice is stored.
-- Displayed the current date beneath the time, localized to the user’s browser locale.
-- Minor UI/UX polish: accessible toggle, responsive typography, and meta theme-color for better mobile appearance.
+From the previous version (basic digital clock), this upgrade includes:
+- Added a dark/light mode toggle with:
+  - Smooth theme transitions
+  - Accessibility (aria-pressed state and descriptive labels)
+  - Persistent preference via `localStorage`
+  - Fallback to system preference when no manual choice is stored
+- Display of the current date beneath the time using a locale-aware, full-date format.
+- Visual refinements and responsive layout for better readability.
