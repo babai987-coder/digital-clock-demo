@@ -1,36 +1,24 @@
-# Simple Digital Clock (24-hour)
+# Digital Clock with Dark/Light Mode
 
 ## Overview
-A minimal web page that displays the current time in 24-hour HH:MM:SS format. The clock updates every second and requires no build tools or external dependencies.
+A simple, responsive digital clock web app that displays the current time and date, with a dark/light mode toggle. The selected theme is remembered across visits and can also follow the system preference if no explicit choice is made.
 
 ## Setup
-- No installation required.
-- Download or copy `index.html` and open it in any modern web browser.
+- No build steps required.
+- Download or clone the project and open index.html in any modern web browser.
 
 ## Usage
-- Open `index.html`.
-- The large display shows the current time in 24-hour format (HH:MM:SS).
-- The time updates automatically every second.
+- Open index.html.
+- The current time updates every second.
+- The current date is displayed beneath the time and updates automatically.
+- Use the toggle in the top-right to switch between light and dark modes.
+  - Your choice is saved and will persist on reload.
+  - If you haven’t chosen a theme, the app follows your system’s color scheme.
 
-## License
-MIT License
-
-Copyright (c) 2025 Digital Clock Contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+## Improvements in Round 2
+- Added dark/light mode toggle with:
+  - Smooth transitions.
+  - Preference persistence via localStorage.
+  - System preference detection and automatic updates when no explicit choice is stored.
+- Displayed the current date beneath the time, localized to the user’s browser locale.
+- Minor UI/UX polish: accessible toggle, responsive typography, and meta theme-color for better mobile appearance.
