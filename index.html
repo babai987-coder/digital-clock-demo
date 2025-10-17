@@ -2,98 +2,259 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Simple Digital Clock (24-hour)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0b0b0f" id="theme-color-meta">
+  <title>Digital Clock with Dark/Light Mode</title>
   <style>
     :root {
-      color-scheme: light dark;
-      --bg: #0e0f12;
-      --fg: #e6e6e6;
-      --accent: #4dd0e1;
-      --muted: #888;
+      --bg: #f6f7fb;
+      --fg: #0b0b0f;
+      --muted: #5c6370;
+      --accent: #3b82f6;
+      --card: #ffffffcc;
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --toggle-bg: #e5e7eb;
     }
+    body.theme-dark {
+      --bg: #0b0b0f;
+      --fg: #e7e9ee;
+      --muted: #a0a6b3;
+      --accent: #60a5fa;
+      --card: #141821cc;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --toggle-bg: #1f2430;
+    }
+    * { box-sizing: border-box; }
     html, body {
       height: 100%;
       margin: 0;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
       background: var(--bg);
       color: var(--fg);
-    }
-    .wrap {
-      min-height: 100%;
       display: grid;
       place-items: center;
-      padding: 2rem;
+      transition: background 0.3s ease, color 0.3s ease;
+      padding: 24px;
     }
-    .clock {
-      font-size: clamp(2.5rem, 8vw, 8rem);
-      letter-spacing: 0.06em;
-      line-height: 1;
-      text-align: center;
-      text-shadow: 0 0 18px rgba(77, 208, 225, 0.25);
+    .app {
+      width: min(680px, 92vw);
+      background: var(--card);
+      backdrop-filter: blur(6px);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 24px 24px 28px;
+      border: 1px solid color-mix(in oklab, var(--fg) 12%, transparent);
     }
-    .label {
-      margin-top: 0.75rem;
-      font-size: 0.95rem;
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .title {
+      font-weight: 650;
+      letter-spacing: 0.3px;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       color: var(--muted);
-      text-align: center;
+    }
+    .title .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 35%, transparent);
+    }
+    .toggle {
+      --h: 36px;
+      height: var(--h);
+      border-radius: calc(var(--h) / 2);
+      background: var(--toggle-bg);
+      border: 1px solid color-mix(in oklab, var(--fg) 16%, transparent);
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .toggle .knob {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: var(--bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      transform: translateX(0);
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .toggle .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .toggle[data-mode="dark"] .knob { transform: translateX(36px); }
+    .toggle .icon { font-size: 16px; }
+    .clock {
+      display: grid;
+      gap: 6px;
+      place-items: center;
+      padding: 28px 12px 8px;
+    }
+    .time {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 1px;
+      font-weight: 800;
+      font-size: clamp(44px, 10vw, 88px);
+      line-height: 1.1;
+    }
+    .date {
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      font-size: clamp(14px, 2.6vw, 18px);
     }
     .footer {
-      position: fixed;
-      bottom: 0.75rem;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 0.8rem;
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
       color: var(--muted);
-      user-select: none;
+      font-size: 12px;
     }
-    .accent {
-      color: var(--accent);
+    .sr-only {
+      position: absolute !important;
+      height: 1px; width: 1px;
+      overflow: hidden;
+      clip: rect(1px, 1px, 1px, 1px);
+      white-space: nowrap;
+      border: 0; padding: 0; margin: -1px;
     }
   </style>
-  <!-- Licensed under the MIT License. See README.md for details. -->
 </head>
 <body>
-  <main class="wrap">
-    <div>
-      <div id="clock" class="clock accent" role="timer" aria-live="polite" aria-atomic="true">--:--:--</div>
-      <div class="label">24-hour format (HH:MM:SS)</div>
-    </div>
-  </main>
-  <div class="footer">Simple Digital Clock</div>
+  <div class="app" role="application" aria-label="Digital clock with theme toggle">
+    <header class="header">
+      <div class="title"><span class="dot" aria-hidden="true"></span> Digital Clock</div>
+      <button id="themeToggle" class="toggle" type="button" aria-pressed="false" aria-label="Toggle dark or light theme">
+        <span class="label"><span class="icon" aria-hidden="true">🌞</span><span aria-hidden="true">Light</span></span>
+        <span class="knob" aria-hidden="true"></span>
+        <span class="label"><span class="icon" aria-hidden="true">🌙</span><span aria-hidden="true">Dark</span></span>
+      </button>
+    </header>
+
+    <main class="clock">
+      <div id="time" class="time" aria-live="polite">--:--:--</div>
+      <div id="date" class="date" aria-live="polite">Loading date…</div>
+    </main>
+
+    <footer class="footer">
+      <span id="tz"></span>
+    </footer>
+  </div>
 
   <script>
-    (function () {
-      const el = document.getElementById('clock');
+    (function() {
+      const timeEl = document.getElementById('time');
+      const dateEl = document.getElementById('date');
+      const tzEl = document.getElementById('tz');
+      const toggle = document.getElementById('themeToggle');
+      const themeMeta = document.getElementById('theme-color-meta');
 
-      function pad2(n) {
-        return String(n).padStart(2, '0');
+      function pad2(n){ return String(n).padStart(2, '0'); }
+
+      function formatTime(now) {
+        const h = pad2(now.getHours());
+        const m = pad2(now.getMinutes());
+        const s = pad2(now.getSeconds());
+        return `${h}:${m}:${s}`;
       }
 
-      function formatTime(d) {
-        return pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+      function formatDate(now) {
+        try {
+          const fmt = new Intl.DateTimeFormat(navigator.language || 'en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+          });
+          return fmt.format(now);
+        } catch {
+          const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+          const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+          return `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+        }
       }
 
-      function update() {
-        el.textContent = formatTime(new Date());
+      function updateClock() {
+        const now = new Date();
+        timeEl.textContent = formatTime(now);
+        dateEl.textContent = formatDate(now);
       }
 
-      function start() {
-        update();
-        // Align updates to the next exact second to reduce drift.
-        const msToNextSecond = 1000 - (new Date().getMilliseconds());
-        setTimeout(() => {
-          update();
-          setInterval(update, 1000);
-        }, msToNextSecond);
+      function updateTimezone() {
+        try {
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          tzEl.textContent = `Timezone: ${tz}`;
+        } catch {
+          tzEl.textContent = '';
+        }
       }
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', start, { once: true });
-      } else {
-        start();
+      function getStoredTheme() {
+        return localStorage.getItem('theme'); // 'light' | 'dark' | null
       }
+      function getSystemTheme() {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      function applyTheme(theme, {persist = false} = {}) {
+        const body = document.body;
+        body.classList.remove('theme-light', 'theme-dark');
+        body.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
+        toggle.dataset.mode = theme;
+        const isDark = theme === 'dark';
+        toggle.setAttribute('aria-pressed', String(isDark));
+        if (persist) localStorage.setItem('theme', theme);
+        // Update meta theme-color for mobile browser UI
+        themeMeta.setAttribute('content', getComputedStyle(document.body).getPropertyValue('--bg').trim() || (isDark ? '#0b0b0f' : '#f6f7fb'));
+      }
+
+      function initTheme() {
+        const stored = getStoredTheme();
+        const initial = stored || getSystemTheme();
+        applyTheme(initial);
+        if (!stored && window.matchMedia) {
+          const mql = window.matchMedia('(prefers-color-scheme: dark)');
+          mql.addEventListener?.('change', (e) => {
+            // Only react to system changes if user has not chosen a preference
+            if (!getStoredTheme()) {
+              applyTheme(e.matches ? 'dark' : 'light');
+            }
+          });
+        }
+      }
+
+      toggle.addEventListener('click', () => {
+        const current = document.body.classList.contains('theme-dark') ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next, {persist: true});
+      });
+
+      // Initialize
+      initTheme();
+      updateClock();
+      updateTimezone();
+      // Tick every second
+      setInterval(updateClock, 1000);
     })();
   </script>
 </body>
