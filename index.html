@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple Digital Clock (24-hour)</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0e0f12;
+      --fg: #e6e6e6;
+      --accent: #4dd0e1;
+      --muted: #888;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .wrap {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+    }
+    .clock {
+      font-size: clamp(2.5rem, 8vw, 8rem);
+      letter-spacing: 0.06em;
+      line-height: 1;
+      text-align: center;
+      text-shadow: 0 0 18px rgba(77, 208, 225, 0.25);
+    }
+    .label {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .footer {
+      position: fixed;
+      bottom: 0.75rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      user-select: none;
+    }
+    .accent {
+      color: var(--accent);
+    }
+  </style>
+  <!-- Licensed under the MIT License. See README.md for details. -->
+</head>
+<body>
+  <main class="wrap">
+    <div>
+      <div id="clock" class="clock accent" role="timer" aria-live="polite" aria-atomic="true">--:--:--</div>
+      <div class="label">24-hour format (HH:MM:SS)</div>
+    </div>
+  </main>
+  <div class="footer">Simple Digital Clock</div>
+
+  <script>
+    (function () {
+      const el = document.getElementById('clock');
+
+      function pad2(n) {
+        return String(n).padStart(2, '0');
+      }
+
+      function formatTime(d) {
+        return pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+      }
+
+      function update() {
+        el.textContent = formatTime(new Date());
+      }
+
+      function start() {
+        update();
+        // Align updates to the next exact second to reduce drift.
+        const msToNextSecond = 1000 - (new Date().getMilliseconds());
+        setTimeout(() => {
+          update();
+          setInterval(update, 1000);
+        }, msToNextSecond);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start, { once: true });
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>
