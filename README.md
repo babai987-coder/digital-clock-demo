@@ -1,24 +1,37 @@
-# Digital Clock (Dark/Light Mode + Date)
+# Simple Digital Clock (24-hour)
 
 ## Overview
-A simple, responsive digital clock web app that:
-- Displays the current time (updates every second)
-- Shows the current date below the time
-- Supports dark and light themes with a toggle
-- Remembers your theme preference and respects your system setting by default
+A minimal, single-file web app that displays the current time in 24-hour HH:MM:SS format. The clock updates every second and runs entirely in the browser with no dependencies.
 
 ## Setup
-1. Download or clone this project.
-2. Open `index.html` in any modern web browser. No build tools or servers required.
+- No build steps or dependencies required.
+- Download or copy `index.html`.
+- Open `index.html` in any modern web browser.
 
 ## Usage
-- Time and date update automatically every second.
-- Use the theme switch (sun/moon toggle) in the header to switch between dark and light modes.
-- Your selection is saved in your browser (localStorage). If you haven’t explicitly chosen a theme, the app follows your device’s system theme and updates if it changes.
+- Open the page to see the current local time.
+- The display is in 24-hour format (HH:MM:SS).
+- The time updates automatically every second.
 
-## Improvements from previous version (Round 2)
-- Added a dark/light mode toggle with a polished switch UI and accessible `role="switch"`.
-- Implemented persistent theme preference using localStorage.
-- App now respects system theme by default and reacts to system changes unless a user preference is set.
-- Added full date display (e.g., Wednesday, October 22, 2025) below the time.
-- Refined styling and layout for better readability and responsiveness.
+## License
+MIT License
+
+Copyright (c) 2025
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
